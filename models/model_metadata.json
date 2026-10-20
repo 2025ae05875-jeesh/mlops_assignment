@@ -1,0 +1,76 @@
+{
+  "model_name": "logistic_regression",
+  "model_version": "20261020071725",
+  "selection_rule": "highest mean 5-fold CV ROC-AUC on training set",
+  "mlflow_run_id": "eaf77f5b58f04c0f93c97a2c276725d4",
+  "metrics": {
+    "cv_roc_auc_mean": 0.9075,
+    "cv_accuracy_mean": 0.8552,
+    "cv_precision_mean": 0.8819,
+    "cv_recall_mean": 0.8008,
+    "cv_f1_mean": 0.8342,
+    "cv_roc_auc_std": 0.0193,
+    "cv_accuracy_std": 0.027,
+    "cv_precision_std": 0.0702,
+    "cv_recall_std": 0.075,
+    "cv_f1_std": 0.0325,
+    "test_roc_auc": 0.961,
+    "test_accuracy": 0.8689,
+    "test_precision": 0.8125,
+    "test_recall": 0.9286,
+    "test_f1": 0.8667
+  },
+  "best_params": {
+    "best_C": "0.3",
+    "best_class_weight": "balanced",
+    "best_penalty": "l2"
+  },
+  "features": [
+    "age",
+    "trestbps",
+    "chol",
+    "thalach",
+    "oldpeak",
+    "ca",
+    "sex",
+    "fbs",
+    "exang",
+    "cp",
+    "restecg",
+    "slope",
+    "thal"
+  ],
+  "numeric_features": [
+    "age",
+    "trestbps",
+    "chol",
+    "thalach",
+    "oldpeak",
+    "ca"
+  ],
+  "binary_features": [
+    "sex",
+    "fbs",
+    "exang"
+  ],
+  "nominal_features": [
+    "cp",
+    "restecg",
+    "slope",
+    "thal"
+  ],
+  "target": "1 = heart disease (UCI num 1-4), 0 = no disease (num 0)",
+  "decision_threshold": 0.5,
+  "random_seed": 42,
+  "data_sha256": "ef37ddcba926d7076e116306f25d8c9233a2d8d5adb89563fa7476835484acfc",
+  "git_commit": "e1ea65c",
+  "trained_utc": "2026-10-20T07:17:25+00:00",
+  "python": "3.12.9",
+  "library_versions": {
+    "scikit-learn": "1.5.2",
+    "pandas": "2.2.3",
+    "numpy": "1.26.4",
+    "joblib": "1.4.2",
+    "mlflow": "2.17.2"
+  }
+}

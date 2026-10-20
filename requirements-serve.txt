@@ -1,0 +1,10 @@
+# Minimal runtime for the Docker image. Versions of numpy / pandas /
+# scikit-learn / joblib MUST match requirements.txt (pickle compatibility).
+numpy==1.26.4
+pandas==2.2.3
+scikit-learn==1.5.2
+joblib==1.4.2
+fastapi==0.115.4
+uvicorn==0.32.0
+pydantic==2.9.2
+prometheus-client==0.21.0

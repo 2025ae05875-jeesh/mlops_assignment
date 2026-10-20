@@ -1,0 +1,35 @@
+# External entry point. On Minikube, run `minikube tunnel` to obtain an
+# EXTERNAL-IP, or use `kubectl port-forward` (see docs/RUNBOOK.md).
+apiVersion: v1
+kind: Service
+metadata:
+  name: heart-api-svc
+  namespace: heart-mlops
+  labels:
+    app: heart-api
+spec:
+  type: LoadBalancer
+  selector:
+    app: heart-api
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
+---
+# Headless service: DNS returns every pod IP, so Prometheus scrapes each
+# replica individually (no RBAC / kubernetes_sd needed).
+apiVersion: v1
+kind: Service
+metadata:
+  name: heart-api-headless
+  namespace: heart-mlops
+  labels:
+    app: heart-api
+spec:
+  clusterIP: None
+  selector:
+    app: heart-api
+  ports:
+    - name: http
+      port: 8000
+      targetPort: http

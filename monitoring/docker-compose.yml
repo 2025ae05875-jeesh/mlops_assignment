@@ -1,0 +1,17 @@
+# Alternative to the Kubernetes monitoring stack: run API + Prometheus +
+# Grafana with plain Docker.  Usage (from repo root):
+#   docker compose -f monitoring/docker-compose.yml up -d
+services:
+  api:
+    image: heart-disease-api:1.0.0
+    ports: ["8000:8000"]
+  prometheus:
+    image: prom/prometheus:v2.54.1
+    ports: ["9090:9090"]
+    volumes:
+      - ./prometheus-compose.yml:/etc/prometheus/prometheus.yml:ro
+  grafana:
+    image: grafana/grafana:11.2.0
+    ports: ["3000:3000"]
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD:-change-me}
