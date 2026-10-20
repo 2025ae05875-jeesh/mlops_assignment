@@ -1,6 +1,4 @@
-"""Step 1: download -> validate -> clean -> save + manifest.
-
-Usage:  python scripts/prepare_data.py [--force]
+"""download -> validate -> clean -> save + manifest.
 """
 
 import argparse

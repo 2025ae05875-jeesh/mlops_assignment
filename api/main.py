@@ -6,10 +6,6 @@ Endpoints
   GET  /model-info  metadata of the served model (no patient data)
   POST /predict     JSON patient features -> class + probability + confidence
   GET  /metrics     Prometheus metrics
-
-Logging policy: one JSON line per request with request_id, method, path,
-status and latency. Request bodies (patient data) are NEVER logged; for
-validation errors only the offending field NAMES are logged.
 """
 
 from __future__ import annotations
@@ -43,8 +39,6 @@ from heartml.schema import PatientFeatures, PredictionResponse
 
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO").upper()
 
-
-# ---------------- structured logging ----------------
 class JsonFormatter(logging.Formatter):
     def format(self, record: logging.LogRecord) -> str:
         payload = {
@@ -70,7 +64,7 @@ def log(level: int, msg: str, **fields) -> None:
     logger.log(level, msg, extra={"extra_fields": fields})
 
 
-# ---------------- Prometheus metrics ----------------
+#Prometheus metrics
 REQUESTS = Counter("heart_api_requests_total", "HTTP requests",
                    ["method", "endpoint", "status"])
 LATENCY = Histogram("heart_api_request_duration_seconds", "Request latency",
@@ -101,7 +95,7 @@ def create_app(model_path: str | None = None) -> FastAPI:
             log(logging.INFO, "model loaded", model_path=model_path,
                 model_name=app.state.meta.get("model_name", "unknown"),
                 model_version=app.state.meta.get("model_version", "unknown"))
-        except Exception as exc:  # service stays up; /ready reports 503
+        except Exception as exc:  
             MODEL_LOADED.set(0)
             log(logging.ERROR, "model load failed", model_path=model_path,
                 error=str(exc))
@@ -129,7 +123,7 @@ def create_app(model_path: str | None = None) -> FastAPI:
                                              "request_id": request_id})
         duration = time.perf_counter() - start
         route = request.scope.get("route")
-        endpoint = getattr(route, "path", "unmatched")  # bounded label values
+        endpoint = getattr(route, "path", "unmatched")  
         if endpoint != "/metrics":
             REQUESTS.labels(request.method, endpoint, str(status)).inc()
             LATENCY.labels(endpoint).observe(duration)
